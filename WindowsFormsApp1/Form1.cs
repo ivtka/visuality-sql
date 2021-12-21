@@ -103,7 +103,11 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if (table == "clients")
+            {
+                Form2 form2 = new Form2(this.connection);
+                form2.ShowDialog();
+            }
         }
     }
 }
