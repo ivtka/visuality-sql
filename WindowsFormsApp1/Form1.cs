@@ -105,22 +105,8 @@ namespace WindowsFormsApp1
         {
             if (table == "clients")
             {
-                try
-                {
-                    connection.Open();
-                    string name = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
-                    string Cl_id = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
-                    string query = $"DELETE FROM clients WHERE Cl_id={Cl_id}";
-                    using (var cmd = new MySqlCommand(query, connection))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
+                Form2 form2 = new Form2(this.connection, "add");
+                form2.ShowDialog();
             }
             else if (table == "abonement")
             {
@@ -158,6 +144,12 @@ namespace WindowsFormsApp1
                 case "abonement":
                     string type = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
                     return $"DELETE FROM abonement WHERE type='{type}'";
+                case "employers":
+                    string Emp_id = dataGridView1.SelectedRows[0].Cells[3].Value.ToString();
+                    return $"DELETE FROM employers WHERE Emp_id={Emp_id}";
+                case "equipment":
+                    string Sp_id = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                    return $"DELETE FROM equipment WHERE Sp_id={Sp_id}";
                 default:
                     return "";
             }
