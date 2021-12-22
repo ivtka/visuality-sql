@@ -108,6 +108,11 @@ namespace WindowsFormsApp1
                 Form2 form2 = new Form2(this.connection, "add");
                 form2.ShowDialog();
             }
+            else if (table == "abonement")
+            {
+                Form3 form3 = new Form3(this.connection, "add");
+                form3.ShowDialog();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -117,6 +122,11 @@ namespace WindowsFormsApp1
                 Form2 form2 = new Form2(this.connection, "update");
                 form2.ShowDialog();
             }
+            else if (table == "abonement")
+            {
+                Form3 form3 = new Form3(this.connection, "update");
+                form3.ShowDialog();
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -125,6 +135,10 @@ namespace WindowsFormsApp1
             {
                 Form2 form2 = new Form2(this.connection, "delete");
                 form2.ShowDialog();
+            } else if (table == "abonement")
+            {
+                Form3 form3 = new Form3(this.connection, "delete");
+                form3.ShowDialog();
             }
         }
     }
