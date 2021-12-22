@@ -105,8 +105,22 @@ namespace WindowsFormsApp1
         {
             if (table == "clients")
             {
-                Form2 form2 = new Form2(this.connection, "add");
-                form2.ShowDialog();
+                try
+                {
+                    connection.Open();
+                    string name = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                    string Cl_id = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+                    string query = $"DELETE FROM clients WHERE Cl_id={Cl_id}";
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
             else if (table == "abonement")
             {
@@ -131,14 +145,39 @@ namespace WindowsFormsApp1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (table == "clients")
+            DeleteFromTable(DeleteQuery());
+        }
+
+        private string DeleteQuery()
+        {
+            switch (table)
             {
-                Form2 form2 = new Form2(this.connection, "delete");
-                form2.ShowDialog();
-            } else if (table == "abonement")
+                case "clients":
+                    string Cl_id = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+                    return $"DELETE FROM clients WHERE Cl_id={Cl_id}"; ;
+                case "abonement":
+                    string type = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                    return $"DELETE FROM abonement WHERE type='{type}'";
+                default:
+                    return "";
+            }
+        }
+
+        private void DeleteFromTable(string query)
+        {
+            try
             {
-                Form3 form3 = new Form3(this.connection, "delete");
-                form3.ShowDialog();
+                connection.Open();
+                using (var cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                connection.Close();
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
             }
         }
     }
