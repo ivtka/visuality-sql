@@ -105,7 +105,25 @@ namespace WindowsFormsApp1
         {
             if (table == "clients")
             {
-                Form2 form2 = new Form2(this.connection);
+                Form2 form2 = new Form2(this.connection, "add");
+                form2.ShowDialog();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (table == "clients")
+            {
+                Form2 form2 = new Form2(this.connection, "update");
+                form2.ShowDialog();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (table == "clients")
+            {
+                Form2 form2 = new Form2(this.connection, "delete");
                 form2.ShowDialog();
             }
         }

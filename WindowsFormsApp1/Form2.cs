@@ -14,11 +14,20 @@ namespace WindowsFormsApp1
     public partial class Form2 : Form
     {
         private MySqlConnection connection;
+        private string operation;
+        private Dictionary<string, Action> operations;
 
-        public Form2(MySqlConnection connection)
+        public Form2(MySqlConnection connection, string operation)
         {
             InitializeComponent();
             this.connection = connection;
+            this.operation = operation;
+            operations = new Dictionary<string, Action>
+            {
+                { "add", add_to_db },
+                { "update", update_to_db },
+                { "delete", delete_to_db }
+            };
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -68,18 +77,59 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            operations[operation]();
+        }
+
+        void add_to_db()
+        {
             try
             {
                 string query = $"insert into clients(name, surname, Cl_id, No_docs) values ('{this.textBox1.Text}', '{this.textBox2.Text}', '{this.textBox3.Text}', '{this.textBox4.Text}')";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 connection.Open();
                 MySqlDataReader reader = cmd.ExecuteReader();
-                MessageBox.Show("Save Data");
+                MessageBox.Show("Inserted Data");
                 while (reader.Read())
                 {
                 }
                 connection.Close();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        void update_to_db()
+        {
+            try
+            {
+                string query = $"update clients set name='{this.textBox1.Text}', surname='{this.textBox2.Text}', Cl_id='{this.textBox3.Text}', No_docs='{this.textBox4.Text}' where Cl_id='{this.textBox3.Text}'";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                connection.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+                MessageBox.Show("Updated Data");
+                while (reader.Read()) { }
+                connection.Close();
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        void delete_to_db()
+        {
+            try
+            {
+                string query = $"delete from clients where Cl_id='{this.textBox3.Text}'";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                connection.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+                MessageBox.Show("Updated Data");
+                while (reader.Read()) { }
+                connection.Close();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
