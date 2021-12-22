@@ -159,12 +159,12 @@ namespace WindowsFormsApp1
         {
             try
             {
-                connection.Open();
+                OpenConnection();
                 using (var cmd = new MySqlCommand(query, connection))
                 {
                     cmd.ExecuteNonQuery();
                 }
-                connection.Close();
+                CloseConnection();
                 dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             }
             catch (Exception ex)
